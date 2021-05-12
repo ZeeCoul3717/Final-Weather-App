@@ -21,6 +21,39 @@ function formatDate(timestamp) {
   return `${day} ${hours}:${minutes}`;
  }
  
+function displayForecast() {
+let forecastElement = document.querySelector("#forecast");
+
+let forecastHTML = `<div class="row">`;
+let days = ["Thu", "Fri", "Sat", "Sun"];
+days.forEach(function (day) {
+forecastHTML = 
+ forecastHTML + 
+ `
+<div class="col-2">
+  <div class="weather-forecast-date">
+ ${day}
+</div>
+ <img src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
+ width="24" />
+ <div class="weather-temperature">
+   <span class="weather-forecast-max">
+ 18º
+</span> 
+<span class="weather-forecast-min">
+12º
+</span>
+</div>
+</div>
+`;
+})
+
+forecastHTML = forecastHTML + `</div>`;
+forecastElement.innerHTML = forecastHTML;
+
+}
+
+
  function displayTemp(response) {
  let temperatureElement = document.querySelector("#temperature")
  let h1Element = document.querySelector("#city");
@@ -67,6 +100,7 @@ temperatureElement.innerHTML = Math.round(celsiusTemperature);
 
   let celsiusTemperature = null;
 
+
  let form = document.querySelector("#search-form")
  form.addEventListener("submit", handleSubmit);
 
@@ -78,3 +112,4 @@ temperatureElement.innerHTML = Math.round(celsiusTemperature);
 
 
  search("Dallas");
+ displayForecast();
