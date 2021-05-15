@@ -20,39 +20,57 @@ function formatDate(timestamp) {
   let day = days[date.getDay()];
   return `${day} ${hours}:${minutes}`;
  }
- 
-function displayForecast() {
-let forecastElement = document.querySelector("#forecast");
 
+
+ function formatDay(timestamp) {
+   let date = new Date(timestamp * 1000);
+   let day = date.getDay();
+   let days = ["Sun", "Mon", "Tues", "Weds", "Thur", "Fri", "Sat"];
+ 
+ return days[day];
+  }
+
+ 
+function displayForecast(response) {
+let forecast = response.data.daily;
+let forecastElement = document.querySelector("#forecast");
 let forecastHTML = `<div class="row">`;
-let days = ["Thu", "Fri", "Sat", "Sun"];
-days.forEach(function (day) {
-forecastHTML = 
+
+forecast.forEach(function (forecastDay, index) {
+if (index < 6) {
+  forecastHTML = 
  forecastHTML + 
  `
 <div class="col-2">
   <div class="weather-forecast-date">
- ${day}
+ ${formatDay (forecastDay.dt)}
 </div>
- <img src="https://ssl.gstatic.com/onebox/weather/64/partly_cloudy.png"
+ <img 
+  src="http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png"
  width="24" />
  <div class="weather-temperature">
    <span class="weather-forecast-max">
- 18º
+ ${Math.round(forecastDay.temp.max)}º
 </span> 
 <span class="weather-forecast-min">
-12º
+${Math.round(forecastDay.temp.min)}º
 </span>
 </div>
 </div>
 `;
-})
+}
+});
 
 forecastHTML = forecastHTML + `</div>`;
 forecastElement.innerHTML = forecastHTML;
 
 }
 
+function getForecast(coordinates) {
+let apiKey = "b59f1577f392e8add8db9da9f75d4c82";
+let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+axios.get(apiUrl).then(displayForecast);
+}
 
  function displayTemp(response) {
  let temperatureElement = document.querySelector("#temperature")
@@ -70,7 +88,9 @@ forecastElement.innerHTML = forecastHTML;
  windElement.innerHTML = `${response.data.wind.speed} km/h`;
  dateElement.innerHTML = formatDate(response.data.dt * 1000)
  iconElement.setAttribute("src",`http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
- }
+ 
+ getForecast(response.data.coord);
+}
  
  function search(city){
    let apiKey = "b59f1577f392e8add8db9da9f75d4c82";
@@ -112,4 +132,3 @@ temperatureElement.innerHTML = Math.round(celsiusTemperature);
 
 
  search("Dallas");
- displayForecast();
