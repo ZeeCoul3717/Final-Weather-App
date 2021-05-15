@@ -68,7 +68,7 @@ forecastElement.innerHTML = forecastHTML;
 
 function getForecast(coordinates) {
 let apiKey = "b59f1577f392e8add8db9da9f75d4c82";
-let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=imperial`;
 axios.get(apiUrl).then(displayForecast);
 }
 
@@ -95,7 +95,7 @@ axios.get(apiUrl).then(displayForecast);
  function search(city){
    let apiKey = "b59f1577f392e8add8db9da9f75d4c82";
    let apiUrl = 
-   `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+   `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`;
    axios.get(apiUrl).then(displayTemp);
  }
  
@@ -104,31 +104,6 @@ axios.get(apiUrl).then(displayForecast);
    let cityInputElement = document.querySelector("#city-input");
    search(cityInputElement.value);
  }
- 
-function displayFahrenheitTemperature(event) {
-  event.preventDefault();
-  let fehrenheitTemperature = (celsiusTemperature *9) / 5 + 32;
-  let temperatureElement = document.querySelector("#temperature");
-  temperatureElement.innerHTML = Math.round(fehrenheitTemperature);
-}
-
-function displayCelsiusTemperature(event) {
-event.preventDefault();
-let temperatureElement = document.querySelector("#temperature");
-temperatureElement.innerHTML = Math.round(celsiusTemperature);
-}
-
-  let celsiusTemperature = null;
-
-
- let form = document.querySelector("#search-form")
- form.addEventListener("submit", handleSubmit);
-
- let fahrenheitLink = document.querySelector("#fahrenheit-link");
- fahrenheitLink.addEventListener("click", displayFahrenheitTemperature);
-
- let celsiusLink = document.querySelector("#celsius-link");
- celsiusLink.addEventListener("click", displayCelsiusTemperature);
-
+  
 
  search("Dallas");
