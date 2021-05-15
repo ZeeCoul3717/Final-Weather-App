@@ -80,8 +80,8 @@ axios.get(apiUrl).then(displayForecast);
  let windElement = document.querySelector("#wind");
  let dateElement = document.querySelector("#date");
  let iconElement = document.querySelector("#icon");
- celsiusTemperature = response.data.main.temp;
- temperatureElement.innerHTML = Math.round (celsiusTemperature);
+ fahrenheitTemperature = response.data.main.temp;
+ temperatureElement.innerHTML = Math.round (fahrenheitTemperature);
  h1Element.innerHTML = response.data.name;
  descriptionElement.innerHTML = response.data.weather[0].description;
  humidityElement.innerHTML = `${response.data.main.humidity} %`;
@@ -104,6 +104,9 @@ axios.get(apiUrl).then(displayForecast);
    let cityInputElement = document.querySelector("#city-input");
    search(cityInputElement.value);
  }
-  
+ 
+ let form = document.querySelector("#search-form")
+ form.addEventListener("submit", handleSubmit);
 
  search("Dallas");
+
